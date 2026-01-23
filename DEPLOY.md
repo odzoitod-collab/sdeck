@@ -22,11 +22,16 @@
 В настройках проекта Vercel добавьте переменные:
 
 ```
-VITE_SUPABASE_URL=https://your-project.supabase.co
-VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
+VITE_SUPABASE_URL=https://stkmdszqjwmuerskbvuj.supabase.co
+VITE_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN0a21kc3pxandtdWVyc2tidnVqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjkxMzc4NTcsImV4cCI6MjA4NDcxMzg1N30.0opRkdf6MDT8apjvACEACSEioOBS2uaLejgLy34uY3Q
 ```
 
-## Шаг 4: Обновление Telegram бота
+## Шаг 4: API Endpoints
+
+Проект включает API endpoint для Telegram интеграции:
+- `/api/send-to-telegram` - отправка скриншотов оплаты в канал `-1003631337137`
+
+## Шаг 5: Обновление Telegram бота
 
 После деплоя обновите URL в файле `sdek/main.py`:
 

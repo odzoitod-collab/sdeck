@@ -1,4 +1,5 @@
 import { VercelRequest, VercelResponse } from '@vercel/node';
+import FormData from 'form-data';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   // Разрешаем CORS
@@ -63,7 +64,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const buffer = Buffer.from(base64Data, 'base64');
 
     // Создаем FormData для отправки в Telegram
-    const FormData = require('form-data');
     const formData = new FormData();
     formData.append('chat_id', CHANNEL_ID);
     formData.append('caption', message);
@@ -76,7 +76,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     // Отправляем в Telegram канал
     const telegramResponse = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`, {
       method: 'POST',
-      body: formData,
+      body: formData as any,
       headers: formData.getHeaders()
     });
 
