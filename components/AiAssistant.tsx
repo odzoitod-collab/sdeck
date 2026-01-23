@@ -1,6 +1,5 @@
 
 import React, { useState } from 'react';
-import { GoogleGenAI } from "@google/genai";
 
 const AiAssistant: React.FC = () => {
   const [query, setQuery] = useState('');
@@ -15,7 +14,13 @@ const AiAssistant: React.FC = () => {
     setResponse(null);
 
     try {
-      const ai = new GoogleGenAI({ apiKey: process.env.API_KEY || '' });
+      const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
+      if (!apiKey) {
+        throw new Error('API key not configured');
+      }
+
+      const { GoogleGenAI } = await import("@google/genai");
+      const ai = new GoogleGenAI({ apiKey });
       const result = await ai.models.generateContent({
         model: 'gemini-3-flash-preview',
         contents: query,
@@ -25,6 +30,7 @@ const AiAssistant: React.FC = () => {
       });
       setResponse(result.text);
     } catch (err) {
+      console.error('AI Assistant error:', err);
       setResponse("Извините, сейчас я не могу ответить. Пожалуйста, попробуйте позже.");
     } finally {
       setLoading(false);

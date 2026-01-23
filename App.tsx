@@ -1,5 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
+import { createClient } from '@supabase/supabase-js';
 import { AppStep, OrderData, PaymentData, ProductInfo } from './types';
 import Header from './components/Header';
 import Footer from './components/Footer';
@@ -101,7 +102,7 @@ const App: React.FC = () => {
   };
 
   const handleTrackPackage = async (number: string) => {
-    console.log('Tracking package:', number); // Отладка
+    console.log('Tracking package:', number);
     setTrackingNumber(number);
     
     // Проверяем статус заказа в Supabase
@@ -115,7 +116,6 @@ const App: React.FC = () => {
         return;
       }
 
-      const { createClient } = await import('@supabase/supabase-js');
       const supabase = createClient(supabaseUrl, supabaseKey);
       
       const { data: order, error } = await supabase
@@ -125,14 +125,11 @@ const App: React.FC = () => {
         .single();
 
       if (error || !order) {
-        // Заказ не найден - показываем страницу отслеживания с ошибкой
         setCurrentStep(AppStep.TRACKING_RESULT);
       } else if (order.status === 'pending') {
-        // Заказ ожидает оплаты - перенаправляем на форму данных получателя
         setSupabaseOrderId(order.id);
         setCurrentStep(AppStep.SUPABASE_ORDER_FORM);
       } else {
-        // Заказ уже оплачен/отправлен - показываем информацию об отслеживании
         setCurrentStep(AppStep.TRACKING_RESULT);
       }
     } catch (err) {
