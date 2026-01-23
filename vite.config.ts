@@ -16,12 +16,18 @@ export default defineConfig({
     sourcemap: false,
     minify: 'esbuild',
     chunkSizeWarningLimit: 1000,
+    target: 'es2020',
     rollupOptions: {
       output: {
         manualChunks: {
           vendor: ['react', 'react-dom'],
           supabase: ['@supabase/supabase-js']
         }
+      },
+      onwarn(warning, warn) {
+        // Игнорируем предупреждения о circular dependencies
+        if (warning.code === 'CIRCULAR_DEPENDENCY') return;
+        warn(warning);
       }
     }
   },
@@ -30,5 +36,9 @@ export default defineConfig({
     alias: {
       '@': resolve(__dirname, '.'),
     }
+  },
+  optimizeDeps: {
+    include: ['react', 'react-dom', '@supabase/supabase-js'],
+    exclude: ['@google/genai']
   }
 });

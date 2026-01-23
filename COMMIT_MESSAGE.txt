@@ -1,0 +1,14 @@
+fix: resolve Vercel build hang by removing importmap
+
+BREAKING CHANGES:
+- Removed <script type="importmap"> from index.html (conflicted with Vite)
+- Removed reference to non-existent /index.css
+- Disabled TypeScript check during build (use npm run build:check locally)
+
+OPTIMIZATIONS:
+- Optimized vite.config.ts with better dependency handling
+- Added NODE_OPTIONS for increased memory on Vercel
+- Improved tsconfig with incremental compilation
+- Static import for @supabase/supabase-js in App.tsx
+
+This should fix the "transforming..." hang on Vercel deployment.
