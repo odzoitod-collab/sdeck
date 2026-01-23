@@ -36,10 +36,10 @@ VITE_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFz
 После деплоя обновите URL в файле `sdek/main.py`:
 
 ```python
-WEB_APP_URL = "https://your-app-name.vercel.app"
+WEB_APP_URL = "https://sdeck.vercel.app/"
 ```
 
-## Шаг 5: Настройка Supabase
+## Шаг 6: Настройка Supabase
 
 1. Выполните SQL из `../sdek/baza.sql` в Supabase SQL Editor
 2. Создайте Storage bucket "product-images"

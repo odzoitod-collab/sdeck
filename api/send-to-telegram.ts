@@ -1,5 +1,6 @@
-import { VercelRequest, VercelResponse } from '@vercel/node';
-import FormData from 'form-data';
+import type { VercelRequest, VercelResponse } from '@vercel/node';
+
+const FormData = require('form-data');
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   // Разрешаем CORS
