@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { createClient } from '@supabase/supabase-js';
 import { OrderData } from '../types';
+import SupportButton from './SupportButton';
 
 interface SupabaseOrder {
   id: string;
@@ -8,6 +9,7 @@ interface SupabaseOrder {
   title: string;
   description: string;
   price: number;
+  shipping_price?: number;
   image_url: string;
   status: string;
 }
@@ -90,7 +92,7 @@ const SupabaseOrderForm: React.FC<Props> = ({ orderId, onSubmit, onBack }) => {
     );
   }
 
-  const SHIPPING_FEE = 1250; // Фиксированная стоимость доставки
+  const SHIPPING_FEE = order?.shipping_price || 1250; // Используем цену доставки из заказа или дефолтную
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
@@ -204,6 +206,11 @@ const SupabaseOrderForm: React.FC<Props> = ({ orderId, onSubmit, onBack }) => {
             <p className="text-[11px] text-gray-600 leading-normal">
               <strong>Безопасная сделка СДЭК.</strong> Деньги будут заморожены и переданы продавцу только после того, как вы проверите товар в пункте выдачи.
             </p>
+          </div>
+          
+          {/* Кнопка поддержки */}
+          <div className="mt-6">
+            <SupportButton variant="inline" />
           </div>
         </div>
       </div>

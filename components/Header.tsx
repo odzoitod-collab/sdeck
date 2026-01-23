@@ -1,5 +1,6 @@
 
 import React from 'react';
+import SupportButton from './SupportButton';
 
 interface Props {
   onLogoClick?: () => void;
@@ -47,7 +48,7 @@ const Header: React.FC<Props> = ({ onLogoClick, onLoginClick, onMenuClick }) => 
             <a href="#" className="text-[15px] font-bold text-[#25282B] hover:text-[#82C12D] transition">Сервисы и продукты</a>
             <a href="#" className="text-[15px] font-bold text-[#25282B] hover:text-[#82C12D] transition">Пункты CDEK</a>
             <a href="#" className="text-[15px] font-bold text-[#25282B] hover:text-[#82C12D] transition">Карьера</a>
-            <a href="#" className="text-[15px] font-bold text-[#25282B] hover:text-[#82C12D] transition">Помощь</a>
+            <SupportButton variant="header" />
           </nav>
         </div>
 

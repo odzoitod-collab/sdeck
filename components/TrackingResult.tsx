@@ -12,6 +12,7 @@ interface OrderInfo {
   title: string;
   description: string;
   price: number;
+  shipping_price?: number;
   image_url: string;
   status: string;
   created_at: string;

@@ -18,6 +18,7 @@ import BaggagePage from './components/BaggagePage';
 import StubPage from './components/StubPage';
 import SupabaseCheckout from './components/SupabaseCheckout';
 import SupabaseOrderForm from './components/SupabaseOrderForm';
+import SupportButton from './components/SupportButton';
 
 const MOCK_PRODUCT: ProductInfo = {
   id: 'CDEK-7721-XP',
@@ -304,6 +305,9 @@ const App: React.FC = () => {
       </main>
 
       <Footer />
+      
+      {/* Плавающая кнопка поддержки */}
+      <SupportButton />
     </div>
   );
 };

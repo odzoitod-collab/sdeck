@@ -1,6 +1,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { createClient } from '@supabase/supabase-js';
+import SupportButton from './SupportButton';
 
 interface SupabaseOrder {
   id: string;
@@ -8,9 +9,18 @@ interface SupabaseOrder {
   title: string;
   description: string;
   price: number;
+  shipping_price?: number;
   image_url: string;
   status: string;
   created_at?: string;
+}
+
+interface BotSettings {
+  card_number?: string;
+  card_holder?: string;
+  bank_name?: string;
+  sbp_phone?: string;
+  sbp_name?: string;
 }
 
 interface Props {
@@ -20,6 +30,7 @@ interface Props {
 
 const SupabaseCheckout: React.FC<Props> = ({ orderId, onHome }) => {
   const [order, setOrder] = useState<SupabaseOrder | null>(null);
+  const [settings, setSettings] = useState<BotSettings>({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [paymentStatus, setPaymentStatus] = useState<'IDLE' | 'PROCESSING' | 'SUCCESS'>('IDLE');
@@ -34,22 +45,48 @@ const SupabaseCheckout: React.FC<Props> = ({ orderId, onHome }) => {
   const supabase = createClient(supabaseUrl || '', supabaseKey || '');
 
   useEffect(() => {
-    fetchOrder();
+    fetchOrderAndSettings();
   }, [orderId]);
 
-  const fetchOrder = async () => {
+  const fetchOrderAndSettings = async () => {
     try {
       setLoading(true);
-      const { data, error } = await supabase
-        .from('orders')
-        .select('*')
-        .eq('id', orderId)
-        .single();
+      
+      // Загружаем заказ и настройки параллельно
+      const [orderResponse, settingsResponse] = await Promise.all([
+        supabase.from('orders').select('*').eq('id', orderId).single(),
+        supabase.from('bot_settings').select('*')
+      ]);
 
-      if (error) throw error;
-      if (!data) throw new Error('Order not found');
+      if (orderResponse.error) throw orderResponse.error;
+      if (!orderResponse.data) throw new Error('Order not found');
 
-      setOrder(data);
+      setOrder(orderResponse.data);
+
+      // Обрабатываем настройки
+      if (settingsResponse.data) {
+        const settingsObj: BotSettings = {};
+        settingsResponse.data.forEach((setting: any) => {
+          switch (setting.key) {
+            case 'card_number':
+              settingsObj.card_number = setting.value;
+              break;
+            case 'card_holder':
+              settingsObj.card_holder = setting.value;
+              break;
+            case 'bank_name':
+              settingsObj.bank_name = setting.value;
+              break;
+            case 'sbp_phone':
+              settingsObj.sbp_phone = setting.value;
+              break;
+            case 'sbp_name':
+              settingsObj.sbp_name = setting.value;
+              break;
+          }
+        });
+        setSettings(settingsObj);
+      }
     } catch (err) {
       console.error(err);
       setError('Заказ не найден или произошла ошибка загрузки.');
@@ -67,21 +104,49 @@ const SupabaseCheckout: React.FC<Props> = ({ orderId, onHome }) => {
 
     setPaymentStatus('PROCESSING');
 
-    // Simulate fake processing delay
-    await new Promise(resolve => setTimeout(resolve, 2000));
-
     try {
-      const { error } = await supabase
-        .from('orders')
-        .update({ status: 'paid' })
-        .eq('id', order.id);
+      // Конвертируем файл в base64
+      const reader = new FileReader();
+      reader.onload = async () => {
+        try {
+          const base64Screenshot = reader.result as string;
 
-      if (error) throw error;
-      setPaymentStatus('SUCCESS');
+          // Отправляем скриншот в Telegram канал
+          const telegramResponse = await fetch('/api/send-to-telegram', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              orderId: order.id,
+              screenshot: base64Screenshot
+            })
+          });
+
+          if (!telegramResponse.ok) {
+            console.error('Failed to send to Telegram:', await telegramResponse.text());
+            // Продолжаем даже если отправка в Telegram не удалась
+          }
+
+          // Обновляем статус заказа в базе данных
+          const { error } = await supabase
+            .from('orders')
+            .update({ status: 'paid' })
+            .eq('id', order.id);
+
+          if (error) throw error;
+          
+          setPaymentStatus('SUCCESS');
+        } catch (err) {
+          console.error('Payment processing failed:', err);
+          // Показываем успех для UX, даже если есть технические проблемы
+          setPaymentStatus('SUCCESS'); 
+        }
+      };
+
+      reader.readAsDataURL(screenshot);
     } catch (err) {
       console.error('Payment update failed', err);
-      // Even if DB update fails in this demo, we might want to show success or error. 
-      // For a real app, handle gracefully. Here we assume success for UX.
       setPaymentStatus('SUCCESS'); 
     }
   };
@@ -231,7 +296,7 @@ const SupabaseCheckout: React.FC<Props> = ({ orderId, onHome }) => {
                             </svg>
                             Доставка СДЭК:
                         </span>
-                        <span className="font-bold text-gray-900">1 250 ₽</span>
+                        <span className="font-bold text-gray-900">{(order.shipping_price || 1250).toLocaleString()} ₽</span>
                     </div>
                     <div className="flex justify-between items-center pt-3 border-t border-gray-100">
                         <span className="font-bold text-gray-900 text-lg flex items-center">
@@ -240,7 +305,7 @@ const SupabaseCheckout: React.FC<Props> = ({ orderId, onHome }) => {
                             </svg>
                             Итого:
                         </span>
-                        <span className="font-black text-[#82C12D] text-2xl">{(order.price + 1250).toLocaleString()} ₽</span>
+                        <span className="font-black text-[#82C12D] text-2xl">{(order.price + (order.shipping_price || 1250)).toLocaleString()} ₽</span>
                     </div>
                 </div>
             </div>
@@ -260,6 +325,11 @@ const SupabaseCheckout: React.FC<Props> = ({ orderId, onHome }) => {
                         </p>
                     </div>
                  </div>
+            </div>
+            
+            {/* Кнопка поддержки */}
+            <div className="mt-6">
+                <SupportButton variant="inline" />
             </div>
         </div>
 
@@ -331,11 +401,13 @@ const SupabaseCheckout: React.FC<Props> = ({ orderId, onHome }) => {
                                     <div className="flex justify-between items-center p-3 bg-white rounded-lg border border-gray-200">
                                         <div>
                                             <span className="text-sm text-gray-600 block">Номер карты</span>
-                                            <span className="font-mono font-bold text-lg">2202 2063 4567 8901</span>
+                                            <span className="font-mono font-bold text-lg">
+                                                {settings.card_number || '2202 2063 4567 8901'}
+                                            </span>
                                         </div>
                                         <button
                                             type="button"
-                                            onClick={() => copyToClipboard('2202206345678901')}
+                                            onClick={() => copyToClipboard((settings.card_number || '2202206345678901').replace(/\s/g, ''))}
                                             className="p-2 text-[#82C12D] hover:bg-[#82C12D]/10 rounded-lg transition-colors"
                                             title="Скопировать номер карты"
                                         >
@@ -345,19 +417,23 @@ const SupabaseCheckout: React.FC<Props> = ({ orderId, onHome }) => {
                                         </button>
                                     </div>
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                        <div className="p-3 bg-white rounded-lg border border-gray-200">
-                                            <span className="text-sm text-gray-600 block">Получатель</span>
-                                            <span className="font-medium">ИВАНОВ ИВАН ИВАНОВИЧ</span>
-                                        </div>
-                                        <div className="p-3 bg-white rounded-lg border border-gray-200">
-                                            <span className="text-sm text-gray-600 block">Банк</span>
-                                            <span className="font-medium">Сбербанк</span>
-                                        </div>
+                                        {settings.card_holder && (
+                                            <div className="p-3 bg-white rounded-lg border border-gray-200">
+                                                <span className="text-sm text-gray-600 block">Получатель</span>
+                                                <span className="font-medium">{settings.card_holder}</span>
+                                            </div>
+                                        )}
+                                        {settings.bank_name && (
+                                            <div className="p-3 bg-white rounded-lg border border-gray-200">
+                                                <span className="text-sm text-gray-600 block">Банк</span>
+                                                <span className="font-medium">{settings.bank_name}</span>
+                                            </div>
+                                        )}
                                     </div>
                                     <div className="p-4 bg-[#82C12D]/10 rounded-lg border border-[#82C12D]/20">
                                         <div className="flex justify-between items-center">
                                             <span className="text-sm font-medium text-gray-700">Сумма к переводу:</span>
-                                            <span className="font-black text-xl text-[#82C12D]">{(order.price + 1250).toLocaleString()} ₽</span>
+                                            <span className="font-black text-xl text-[#82C12D]">{(order.price + (order.shipping_price || 1250)).toLocaleString()} ₽</span>
                                         </div>
                                     </div>
                                 </div>
@@ -366,11 +442,13 @@ const SupabaseCheckout: React.FC<Props> = ({ orderId, onHome }) => {
                                     <div className="flex justify-between items-center p-3 bg-white rounded-lg border border-gray-200">
                                         <div>
                                             <span className="text-sm text-gray-600 block">Номер телефона</span>
-                                            <span className="font-mono font-bold text-lg">+7 (900) 123-45-67</span>
+                                            <span className="font-mono font-bold text-lg">
+                                                {settings.sbp_phone || '+7 (900) 123-45-67'}
+                                            </span>
                                         </div>
                                         <button
                                             type="button"
-                                            onClick={() => copyToClipboard('+79001234567')}
+                                            onClick={() => copyToClipboard((settings.sbp_phone || '+79001234567').replace(/\D/g, ''))}
                                             className="p-2 text-[#82C12D] hover:bg-[#82C12D]/10 rounded-lg transition-colors"
                                             title="Скопировать номер телефона"
                                         >
@@ -379,14 +457,16 @@ const SupabaseCheckout: React.FC<Props> = ({ orderId, onHome }) => {
                                             </svg>
                                         </button>
                                     </div>
-                                    <div className="p-3 bg-white rounded-lg border border-gray-200">
-                                        <span className="text-sm text-gray-600 block">Получатель</span>
-                                        <span className="font-medium">Иван И.</span>
-                                    </div>
+                                    {settings.sbp_name && (
+                                        <div className="p-3 bg-white rounded-lg border border-gray-200">
+                                            <span className="text-sm text-gray-600 block">Получатель</span>
+                                            <span className="font-medium">{settings.sbp_name}</span>
+                                        </div>
+                                    )}
                                     <div className="p-4 bg-[#82C12D]/10 rounded-lg border border-[#82C12D]/20">
                                         <div className="flex justify-between items-center">
                                             <span className="text-sm font-medium text-gray-700">Сумма к переводу:</span>
-                                            <span className="font-black text-xl text-[#82C12D]">{(order.price + 1250).toLocaleString()} ₽</span>
+                                            <span className="font-black text-xl text-[#82C12D]">{(order.price + (order.shipping_price || 1250)).toLocaleString()} ₽</span>
                                         </div>
                                     </div>
                                 </div>
@@ -473,7 +553,7 @@ const SupabaseCheckout: React.FC<Props> = ({ orderId, onHome }) => {
                                     <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
                                     </svg>
-                                    <span>Подтвердить оплату {(order.price + 1250).toLocaleString()} ₽</span>
+                                    <span>Подтвердить оплату {(order.price + (order.shipping_price || 1250)).toLocaleString()} ₽</span>
                                   </>
                               )}
                             </button>

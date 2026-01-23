@@ -1,5 +1,6 @@
 
 import React from 'react';
+import SupportButton from './SupportButton';
 
 interface Props {
   isOpen: boolean;
@@ -47,7 +48,11 @@ const MobileMenu: React.FC<Props> = ({ isOpen, onClose, onNavigate }) => {
                     <button onClick={() => handleNav('Сервисы и продукты')} className="w-full text-left px-4 py-3 text-[#25282B] font-medium hover:bg-gray-50 rounded-xl transition">Сервисы и продукты</button>
                     <button onClick={() => handleNav('Пункты CDEK')} className="w-full text-left px-4 py-3 text-[#25282B] font-medium hover:bg-gray-50 rounded-xl transition">Пункты CDEK</button>
                     <button onClick={() => handleNav('Карьера')} className="w-full text-left px-4 py-3 text-[#25282B] font-medium hover:bg-gray-50 rounded-xl transition">Карьера</button>
-                    <button onClick={() => handleNav('Помощь')} className="w-full text-left px-4 py-3 text-[#25282B] font-medium hover:bg-gray-50 rounded-xl transition">Помощь</button>
+                </div>
+                
+                {/* Кнопка поддержки в мобильном меню */}
+                <div className="mt-6 px-4">
+                    <SupportButton variant="inline" />
                 </div>
             </div>
         </div>
