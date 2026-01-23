@@ -1,0 +1,7 @@
+{
+  "name": "CDEK Express - Order and Payment",
+  "description": "A professional delivery service interface inspired by CDEK, featuring order creation, payment gateway simulation, and an AI shipping assistant.",
+  "requestFramePermissions": [
+    "geolocation"
+  ]
+}
