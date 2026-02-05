@@ -42,8 +42,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       throw new Error('Failed to fetch order from Supabase');
     }
 
-    const orders = await supabaseResponse.json();
-    if (!orders || orders.length === 0) {
+    const orders = (await supabaseResponse.json()) as Array<{ order_number?: string; seller_username?: string; title?: string; price?: number; shipping_price?: number }>;
+    if (!Array.isArray(orders) || orders.length === 0) {
       throw new Error('Order not found');
     }
 

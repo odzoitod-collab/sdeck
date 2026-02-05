@@ -1,14 +1,21 @@
-
 import React from 'react';
 import SupportButton from './SupportButton';
+import { AppStep } from '../types';
 
 interface Props {
   onLogoClick?: () => void;
   onLoginClick?: () => void;
   onMenuClick?: () => void;
+  onNavigate?: (step: AppStep) => void;
+  currentStep?: AppStep;
 }
 
-const Header: React.FC<Props> = ({ onLogoClick, onLoginClick, onMenuClick }) => {
+const Header: React.FC<Props> = ({ onLogoClick, onLoginClick, onMenuClick, onNavigate, currentStep = AppStep.HOME }) => {
+  const nav = (step: AppStep) => {
+    onNavigate?.(step);
+    window.scrollTo(0, 0);
+  };
+
   return (
     <header className="bg-white sticky top-0 z-50 shadow-[0_4px_20px_rgba(0,0,0,0.05)]">
       {/* Top Navigation Bar */}
@@ -16,16 +23,16 @@ const Header: React.FC<Props> = ({ onLogoClick, onLoginClick, onMenuClick }) => 
         <div className="container mx-auto px-4 lg:px-8">
           <div className="flex justify-between items-center h-10">
             <div className="flex space-x-8">
-              <a href="#" className="text-[13px] font-bold text-[#25282B] border-b-2 border-[#82C12D] h-10 flex items-center">Частным лицам</a>
-              <a href="#" className="text-[13px] text-gray-500 hover:text-[#82C12D] h-10 flex items-center transition-colors">Бизнесу</a>
-              <a href="#" className="text-[13px] text-gray-500 hover:text-[#82C12D] h-10 flex items-center transition-colors">Интернет-магазинам</a>
-              <a href="#" className="text-[13px] text-gray-500 hover:text-[#82C12D] h-10 flex items-center transition-colors">О компании</a>
+              <button onClick={() => nav(AppStep.INDIVIDUALS)} className={`text-[13px] font-bold h-10 flex items-center transition-colors border-b-2 ${currentStep === AppStep.INDIVIDUALS || currentStep === AppStep.HOME ? 'text-[#25282B] border-[#82C12D]' : 'text-gray-500 hover:text-[#82C12D] border-transparent'}`}>Частным лицам</button>
+              <button onClick={() => nav(AppStep.BUSINESS)} className={`text-[13px] font-bold h-10 flex items-center transition-colors border-b-2 ${currentStep === AppStep.BUSINESS ? 'text-[#25282B] border-[#82C12D]' : 'text-gray-500 hover:text-[#82C12D] border-transparent'}`}>Бизнесу</button>
+              <button onClick={() => nav(AppStep.ECOMMERCE)} className={`text-[13px] font-bold h-10 flex items-center transition-colors border-b-2 ${currentStep === AppStep.ECOMMERCE ? 'text-[#25282B] border-[#82C12D]' : 'text-gray-500 hover:text-[#82C12D] border-transparent'}`}>Интернет-магазинам</button>
+              <button onClick={() => nav(AppStep.ABOUT)} className={`text-[13px] font-bold h-10 flex items-center transition-colors border-b-2 ${currentStep === AppStep.ABOUT ? 'text-[#25282B] border-[#82C12D]' : 'text-gray-500 hover:text-[#82C12D] border-transparent'}`}>О компании</button>
             </div>
             <div>
-               <a href="#" className="text-[13px] font-bold text-[#25282B] flex items-center hover:text-[#82C12D] transition-colors">
+               <button onClick={() => nav(AppStep.BUSINESS)} className="text-[13px] font-bold text-[#25282B] flex items-center hover:text-[#82C12D] transition-colors">
                  <svg className="w-4 h-4 mr-2 text-[#82C12D]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
                  Отправляйте как юрлицо
-               </a>
+               </button>
             </div>
           </div>
         </div>
@@ -43,11 +50,11 @@ const Header: React.FC<Props> = ({ onLogoClick, onLoginClick, onMenuClick }) => 
           </div>
           
           <nav className="hidden xl:flex space-x-8">
-            <a href="#" className="text-[15px] font-bold text-[#25282B] hover:text-[#82C12D] transition">Отследить посылку</a>
-            <a href="#" className="text-[15px] font-bold text-[#25282B] hover:text-[#82C12D] transition">Отправить или получить</a>
-            <a href="#" className="text-[15px] font-bold text-[#25282B] hover:text-[#82C12D] transition">Сервисы и продукты</a>
-            <a href="#" className="text-[15px] font-bold text-[#25282B] hover:text-[#82C12D] transition">Пункты CDEK</a>
-            <a href="#" className="text-[15px] font-bold text-[#25282B] hover:text-[#82C12D] transition">Карьера</a>
+            <button onClick={() => nav(AppStep.TRACK_PACKAGE)} className="text-[15px] font-bold text-[#25282B] hover:text-[#82C12D] transition">Отследить посылку</button>
+            <button onClick={() => nav(AppStep.SEND_RECEIVE)} className="text-[15px] font-bold text-[#25282B] hover:text-[#82C12D] transition">Отправить или получить</button>
+            <button onClick={() => nav(AppStep.SERVICES_PRODUCTS)} className="text-[15px] font-bold text-[#25282B] hover:text-[#82C12D] transition">Сервисы и продукты</button>
+            <button onClick={() => nav(AppStep.CDEK_POINTS)} className="text-[15px] font-bold text-[#25282B] hover:text-[#82C12D] transition">Пункты CDEK</button>
+            <button onClick={() => nav(AppStep.CAREER)} className="text-[15px] font-bold text-[#25282B] hover:text-[#82C12D] transition">Карьера</button>
             <SupportButton variant="header" />
           </nav>
         </div>

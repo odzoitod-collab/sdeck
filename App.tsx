@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { createClient } from '@supabase/supabase-js';
 import { AppStep, OrderData, PaymentData, ProductInfo } from './types';
@@ -16,10 +15,18 @@ import TrackingResult from './components/TrackingResult';
 import CdekIdPage from './components/CdekIdPage';
 import OnlinePaymentSearch from './components/OnlinePaymentSearch';
 import BaggagePage from './components/BaggagePage';
-import StubPage from './components/StubPage';
 import SupabaseCheckout from './components/SupabaseCheckout';
 import SupabaseOrderForm from './components/SupabaseOrderForm';
 import SupportButton from './components/SupportButton';
+import IndividualsPage from './components/pages/IndividualsPage';
+import BusinessPage from './components/pages/BusinessPage';
+import EcommercePage from './components/pages/EcommercePage';
+import TrackPackagePage from './components/pages/TrackPackagePage';
+import SendReceivePage from './components/pages/SendReceivePage';
+import ServicesProductsPage from './components/pages/ServicesProductsPage';
+import CdekPointsPage from './components/pages/CdekPointsPage';
+import CareerPage from './components/pages/CareerPage';
+import AboutPage from './components/pages/AboutPage';
 
 const MOCK_PRODUCT: ProductInfo = {
   id: 'CDEK-7721-XP',
@@ -35,7 +42,6 @@ const App: React.FC = () => {
   const [currentStep, setCurrentStep] = useState<AppStep>(AppStep.HOME);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [stubTitle, setStubTitle] = useState('');
   const [supabaseOrderId, setSupabaseOrderId] = useState<string | null>(null);
   const [trackingNumber, setTrackingNumber] = useState('');
   
@@ -89,9 +95,8 @@ const App: React.FC = () => {
     window.scrollTo(0, 0);
   };
 
-  const navigateToStub = (title: string) => {
-    setStubTitle(title);
-    setCurrentStep(AppStep.STUB);
+  const navigate = (step: AppStep) => {
+    setCurrentStep(step);
     window.scrollTo(0, 0);
   };
 
@@ -169,8 +174,26 @@ const App: React.FC = () => {
           return <OnlinePaymentSearch onBack={goToHome} onFound={() => setCurrentStep(AppStep.ORDER_FORM)} />;
       case AppStep.BAGGAGE_INFO:
           return <BaggagePage onBack={goToHome} />;
-      case AppStep.STUB:
-          return <StubPage title={stubTitle} onBack={goToHome} />;
+
+      // Section Pages
+      case AppStep.INDIVIDUALS:
+          return <IndividualsPage onBack={goToHome} onTrackPackage={handleTrackPackage} onNavigateToPayment={() => navigate(AppStep.ONLINE_PAYMENT_SEARCH)} onNavigateToCdekId={() => navigate(AppStep.CDEK_ID_INFO)} onConnectCdekId={() => setIsLoginOpen(true)} />;
+      case AppStep.BUSINESS:
+          return <BusinessPage onBack={goToHome} />;
+      case AppStep.ECOMMERCE:
+          return <EcommercePage onBack={goToHome} />;
+      case AppStep.TRACK_PACKAGE:
+          return <TrackPackagePage onBack={goToHome} onTrackPackage={handleTrackPackage} onTrackingHelp={() => navigate(AppStep.TRACKING_HELP)} />;
+      case AppStep.SEND_RECEIVE:
+          return <SendReceivePage onBack={goToHome} onNavigateToPayment={() => navigate(AppStep.ONLINE_PAYMENT_SEARCH)} />;
+      case AppStep.SERVICES_PRODUCTS:
+          return <ServicesProductsPage onBack={goToHome} onNavigateToCdekId={() => navigate(AppStep.CDEK_ID_INFO)} onNavigateToBaggage={() => navigate(AppStep.BAGGAGE_INFO)} onNavigateToPayment={() => navigate(AppStep.ONLINE_PAYMENT_SEARCH)} onNavigateHome={goToHome} />;
+      case AppStep.CDEK_POINTS:
+          return <CdekPointsPage onBack={goToHome} />;
+      case AppStep.CAREER:
+          return <CareerPage onBack={goToHome} />;
+      case AppStep.ABOUT:
+          return <AboutPage onBack={goToHome} />;
 
       // Core Flow (Mock)
       case AppStep.ORDER_FORM:
@@ -215,13 +238,15 @@ const App: React.FC = () => {
         onLogoClick={goToHome} 
         onLoginClick={() => setIsLoginOpen(true)} 
         onMenuClick={() => setIsMenuOpen(true)}
+        onNavigate={navigate}
+        currentStep={currentStep}
       />
       
       <LoginModal isOpen={isLoginOpen} onClose={() => setIsLoginOpen(false)} />
       <MobileMenu 
         isOpen={isMenuOpen} 
         onClose={() => setIsMenuOpen(false)} 
-        onNavigate={navigateToStub}
+        onNavigate={navigate}
       />
 
       <main className={`flex-grow ${currentStep === AppStep.HOME ? '' : 'container mx-auto px-4 py-8 max-w-5xl'}`}>
@@ -301,7 +326,7 @@ const App: React.FC = () => {
         )}
       </main>
 
-      <Footer />
+      <Footer onNavigate={navigate} />
       
       {/* Плавающая кнопка поддержки */}
       <SupportButton />

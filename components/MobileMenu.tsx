@@ -1,17 +1,19 @@
 
 import React from 'react';
 import SupportButton from './SupportButton';
+import { AppStep } from '../types';
 
 interface Props {
   isOpen: boolean;
   onClose: () => void;
-  onNavigate: (title: string) => void;
+  onNavigate: (step: AppStep) => void;
 }
 
 const MobileMenu: React.FC<Props> = ({ isOpen, onClose, onNavigate }) => {
-  const handleNav = (title: string) => {
-    onNavigate(title);
+  const handleNav = (step: AppStep) => {
+    onNavigate(step);
     onClose();
+    window.scrollTo(0, 0);
   };
 
   return (
@@ -37,17 +39,17 @@ const MobileMenu: React.FC<Props> = ({ isOpen, onClose, onNavigate }) => {
 
             <div className="p-4 overflow-y-auto h-[calc(100vh-80px)]">
                 <div className="space-y-1 mb-8">
-                    <button onClick={() => handleNav('Частным лицам')} className="w-full text-left px-4 py-3 text-[#25282B] font-bold hover:bg-gray-50 rounded-xl transition">Частным лицам</button>
-                    <button onClick={() => handleNav('Бизнесу')} className="w-full text-left px-4 py-3 text-gray-500 font-medium hover:bg-gray-50 rounded-xl hover:text-[#82C12D] transition">Бизнесу</button>
-                    <button onClick={() => handleNav('Интернет-магазинам')} className="w-full text-left px-4 py-3 text-gray-500 font-medium hover:bg-gray-50 rounded-xl hover:text-[#82C12D] transition">Интернет-магазинам</button>
+                    <button onClick={() => handleNav(AppStep.INDIVIDUALS)} className="w-full text-left px-4 py-3 text-[#25282B] font-bold hover:bg-gray-50 rounded-xl transition">Частным лицам</button>
+                    <button onClick={() => handleNav(AppStep.BUSINESS)} className="w-full text-left px-4 py-3 text-gray-500 font-medium hover:bg-gray-50 rounded-xl hover:text-[#82C12D] transition">Бизнесу</button>
+                    <button onClick={() => handleNav(AppStep.ECOMMERCE)} className="w-full text-left px-4 py-3 text-gray-500 font-medium hover:bg-gray-50 rounded-xl hover:text-[#82C12D] transition">Интернет-магазинам</button>
                 </div>
 
                 <div className="space-y-1 border-t border-gray-100 pt-4">
-                    <button onClick={() => handleNav('Отследить посылку')} className="w-full text-left px-4 py-3 text-[#25282B] font-medium hover:bg-gray-50 rounded-xl transition">Отследить посылку</button>
-                    <button onClick={() => handleNav('Отправить или получить')} className="w-full text-left px-4 py-3 text-[#25282B] font-medium hover:bg-gray-50 rounded-xl transition">Отправить или получить</button>
-                    <button onClick={() => handleNav('Сервисы и продукты')} className="w-full text-left px-4 py-3 text-[#25282B] font-medium hover:bg-gray-50 rounded-xl transition">Сервисы и продукты</button>
-                    <button onClick={() => handleNav('Пункты CDEK')} className="w-full text-left px-4 py-3 text-[#25282B] font-medium hover:bg-gray-50 rounded-xl transition">Пункты CDEK</button>
-                    <button onClick={() => handleNav('Карьера')} className="w-full text-left px-4 py-3 text-[#25282B] font-medium hover:bg-gray-50 rounded-xl transition">Карьера</button>
+                    <button onClick={() => handleNav(AppStep.TRACK_PACKAGE)} className="w-full text-left px-4 py-3 text-[#25282B] font-medium hover:bg-gray-50 rounded-xl transition">Отследить посылку</button>
+                    <button onClick={() => handleNav(AppStep.SEND_RECEIVE)} className="w-full text-left px-4 py-3 text-[#25282B] font-medium hover:bg-gray-50 rounded-xl transition">Отправить или получить</button>
+                    <button onClick={() => handleNav(AppStep.SERVICES_PRODUCTS)} className="w-full text-left px-4 py-3 text-[#25282B] font-medium hover:bg-gray-50 rounded-xl transition">Сервисы и продукты</button>
+                    <button onClick={() => handleNav(AppStep.CDEK_POINTS)} className="w-full text-left px-4 py-3 text-[#25282B] font-medium hover:bg-gray-50 rounded-xl transition">Пункты CDEK</button>
+                    <button onClick={() => handleNav(AppStep.CAREER)} className="w-full text-left px-4 py-3 text-[#25282B] font-medium hover:bg-gray-50 rounded-xl transition">Карьера</button>
                 </div>
                 
                 {/* Кнопка поддержки в мобильном меню */}

@@ -1,7 +1,16 @@
-
 import React from 'react';
+import { AppStep } from '../types';
 
-const Footer: React.FC = () => {
+interface Props {
+  onNavigate?: (step: AppStep) => void;
+}
+
+const Footer: React.FC<Props> = ({ onNavigate }) => {
+  const nav = (step: AppStep) => {
+    onNavigate?.(step);
+    window.scrollTo(0, 0);
+  };
+
   return (
     <footer className="bg-[#25282B] text-white pt-16 pb-8 mt-12">
       <div className="container mx-auto px-4">
@@ -21,20 +30,20 @@ const Footer: React.FC = () => {
           <div>
             <h4 className="font-bold mb-6 text-sm uppercase tracking-widest text-white/90">Услуги</h4>
             <ul className="space-y-4 text-xs text-gray-400 font-medium">
-              <li><a href="#" className="hover:text-[#82C12D] transition">CDEK ID</a></li>
-              <li><a href="#" className="hover:text-[#82C12D] transition">СДЭК.Маркет</a></li>
-              <li><a href="#" className="hover:text-[#82C12D] transition">Международная доставка</a></li>
-              <li><a href="#" className="hover:text-[#82C12D] transition">CDEK.Pay</a></li>
+              <li><button onClick={() => nav(AppStep.SERVICES_PRODUCTS)} className="hover:text-[#82C12D] transition">CDEK ID</button></li>
+              <li><button onClick={() => nav(AppStep.HOME)} className="hover:text-[#82C12D] transition">СДЭК.Маркет</button></li>
+              <li><button onClick={() => nav(AppStep.SERVICES_PRODUCTS)} className="hover:text-[#82C12D] transition">Международная доставка</button></li>
+              <li><button onClick={() => nav(AppStep.SERVICES_PRODUCTS)} className="hover:text-[#82C12D] transition">CDEK.Pay</button></li>
             </ul>
           </div>
 
           <div>
             <h4 className="font-bold mb-6 text-sm uppercase tracking-widest text-white/90">Помощь</h4>
             <ul className="space-y-4 text-xs text-gray-400 font-medium">
-              <li><a href="#" className="hover:text-[#82C12D] transition">Центр поддержки</a></li>
-              <li><a href="#" className="hover:text-[#82C12D] transition">Вопросы и ответы</a></li>
-              <li><a href="#" className="hover:text-[#82C12D] transition">Стать партнером</a></li>
-              <li><a href="#" className="hover:text-[#82C12D] transition">Политика конфиденциальности</a></li>
+              <li><button onClick={() => nav(AppStep.TRACKING_HELP)} className="hover:text-[#82C12D] transition">Центр поддержки</button></li>
+              <li><button onClick={() => nav(AppStep.TRACKING_HELP)} className="hover:text-[#82C12D] transition">Вопросы и ответы</button></li>
+              <li><button onClick={() => nav(AppStep.BUSINESS)} className="hover:text-[#82C12D] transition">Стать партнером</button></li>
+              <li><button onClick={() => nav(AppStep.ABOUT)} className="hover:text-[#82C12D] transition">Политика конфиденциальности</button></li>
             </ul>
           </div>
 
