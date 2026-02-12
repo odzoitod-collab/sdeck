@@ -9,6 +9,16 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Inter', sans-serif; }
+        @keyframes success-circle-in {
+            from { transform: scale(0); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        @keyframes success-check-draw {
+            from { stroke-dashoffset: 24; opacity: 0; }
+            to { stroke-dashoffset: 0; opacity: 1; }
+        }
+        .animate-success-circle { animation: success-circle-in 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
+        .animate-success-check { stroke-dasharray: 24; animation: success-check-draw 0.4s ease-out 0.2s forwards; opacity: 0; }
     </style>
 </head>
 <body class="bg-gray-50 text-[#25282B]">
