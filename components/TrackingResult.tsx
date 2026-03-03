@@ -80,32 +80,14 @@ const TrackingResult: React.FC<Props> = ({ trackingNumber, onBack }) => {
           icon: '⏳'
         };
       case 'paid':
-        return {
-          text: 'Оплачен',
-          color: 'text-blue-600',
-          bgColor: 'bg-blue-50',
-          icon: '💳'
-        };
       case 'shipped':
-        return {
-          text: 'Отправлен',
-          color: 'text-purple-600',
-          bgColor: 'bg-purple-50',
-          icon: '📦'
-        };
       case 'delivered':
-        return {
-          text: 'Доставлен',
-          color: 'text-green-600',
-          bgColor: 'bg-green-50',
-          icon: '✅'
-        };
       default:
         return {
-          text: 'Неизвестный статус',
-          color: 'text-gray-600',
-          bgColor: 'bg-gray-50',
-          icon: '❓'
+          text: 'Обработка оплаты. Ожидайте.',
+          color: 'text-blue-600',
+          bgColor: 'bg-blue-50',
+          icon: '⏳'
         };
     }
   };
@@ -113,7 +95,7 @@ const TrackingResult: React.FC<Props> = ({ trackingNumber, onBack }) => {
   if (loading) {
     return (
       <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-10 animate-fadeIn">
-        <button onClick={onBack} className="text-[#82C12D] font-bold text-sm mb-6 flex items-center hover:underline">
+        <button onClick={onBack} className="text-[#8DC63F] font-bold text-sm mb-6 flex items-center hover:underline">
           <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7"></path>
           </svg>
@@ -121,7 +103,7 @@ const TrackingResult: React.FC<Props> = ({ trackingNumber, onBack }) => {
         </button>
 
         <div className="flex items-center justify-center py-12">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#82C12D]"></div>
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#8DC63F]"></div>
           <span className="ml-3 text-gray-600">Поиск заказа...</span>
         </div>
       </div>
@@ -131,7 +113,7 @@ const TrackingResult: React.FC<Props> = ({ trackingNumber, onBack }) => {
   if (error) {
     return (
       <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-10 animate-fadeIn">
-        <button onClick={onBack} className="text-[#82C12D] font-bold text-sm mb-6 flex items-center hover:underline">
+        <button onClick={onBack} className="text-[#8DC63F] font-bold text-sm mb-6 flex items-center hover:underline">
           <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7"></path>
           </svg>
@@ -146,7 +128,7 @@ const TrackingResult: React.FC<Props> = ({ trackingNumber, onBack }) => {
           </p>
           <button 
             onClick={onBack}
-            className="px-6 py-3 bg-[#82C12D] text-white font-bold rounded-xl hover:bg-[#72a927] transition"
+            className="px-6 py-3 bg-[#8DC63F] text-white font-bold rounded-xl hover:bg-[#72a930] transition"
           >
             Попробовать снова
           </button>
@@ -170,7 +152,7 @@ const TrackingResult: React.FC<Props> = ({ trackingNumber, onBack }) => {
 
   return (
     <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-10 animate-fadeIn">
-      <button onClick={onBack} className="text-[#82C12D] font-bold text-sm mb-6 flex items-center hover:underline">
+      <button onClick={onBack} className="text-[#8DC63F] font-bold text-sm mb-6 flex items-center hover:underline">
         <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7"></path>
         </svg>
@@ -205,7 +187,7 @@ const TrackingResult: React.FC<Props> = ({ trackingNumber, onBack }) => {
           <div className="flex-grow">
             <h4 className="font-bold text-lg mb-2">{orderInfo.title}</h4>
             <p className="text-gray-600 text-sm mb-3">{orderInfo.description}</p>
-            <p className="text-2xl font-bold text-[#82C12D]">{orderInfo.price.toLocaleString()} ₽</p>
+            <p className="text-2xl font-bold text-[#8DC63F]">{orderInfo.price.toLocaleString()} ₽</p>
           </div>
         </div>
       </div>
@@ -214,21 +196,21 @@ const TrackingResult: React.FC<Props> = ({ trackingNumber, onBack }) => {
       <div className="border border-gray-200 rounded-xl p-6">
         <h3 className="font-bold text-lg mb-4">Этапы доставки</h3>
         <div className="space-y-4">
-          <div className={`flex items-center ${orderInfo.status === 'pending' ? 'text-[#82C12D]' : 'text-gray-400'}`}>
-            <div className={`w-3 h-3 rounded-full mr-4 ${orderInfo.status === 'pending' ? 'bg-[#82C12D]' : 'bg-gray-300'}`}></div>
+          <div className={`flex items-center ${orderInfo.status === 'pending' ? 'text-[#8DC63F]' : 'text-gray-400'}`}>
+            <div className={`w-3 h-3 rounded-full mr-4 ${orderInfo.status === 'pending' ? 'bg-[#8DC63F]' : 'bg-gray-300'}`}></div>
             <span className="font-medium">Ожидает оплаты</span>
           </div>
-          <div className={`flex items-center ${['paid', 'shipped', 'delivered'].includes(orderInfo.status) ? 'text-[#82C12D]' : 'text-gray-400'}`}>
-            <div className={`w-3 h-3 rounded-full mr-4 ${['paid', 'shipped', 'delivered'].includes(orderInfo.status) ? 'bg-[#82C12D]' : 'bg-gray-300'}`}></div>
-            <span className="font-medium">Оплачен</span>
+          <div className={`flex items-center ${['paid', 'shipped', 'delivered'].includes(orderInfo.status) ? 'text-[#8DC63F]' : 'text-gray-400'}`}>
+            <div className={`w-3 h-3 rounded-full mr-4 ${['paid', 'shipped', 'delivered'].includes(orderInfo.status) ? 'bg-[#8DC63F]' : 'bg-gray-300'}`}></div>
+            <span className="font-medium">Обработка оплаты. Ожидайте.</span>
           </div>
-          <div className={`flex items-center ${['shipped', 'delivered'].includes(orderInfo.status) ? 'text-[#82C12D]' : 'text-gray-400'}`}>
-            <div className={`w-3 h-3 rounded-full mr-4 ${['shipped', 'delivered'].includes(orderInfo.status) ? 'bg-[#82C12D]' : 'bg-gray-300'}`}></div>
-            <span className="font-medium">Отправлен</span>
+          <div className={`flex items-center ${['shipped', 'delivered'].includes(orderInfo.status) ? 'text-[#8DC63F]' : 'text-gray-400'}`}>
+            <div className={`w-3 h-3 rounded-full mr-4 ${['shipped', 'delivered'].includes(orderInfo.status) ? 'bg-[#8DC63F]' : 'bg-gray-300'}`}></div>
+            <span className="font-medium">Обработка оплаты. Ожидайте.</span>
           </div>
-          <div className={`flex items-center ${orderInfo.status === 'delivered' ? 'text-[#82C12D]' : 'text-gray-400'}`}>
-            <div className={`w-3 h-3 rounded-full mr-4 ${orderInfo.status === 'delivered' ? 'bg-[#82C12D]' : 'bg-gray-300'}`}></div>
-            <span className="font-medium">Доставлен</span>
+          <div className={`flex items-center ${orderInfo.status === 'delivered' ? 'text-[#8DC63F]' : 'text-gray-400'}`}>
+            <div className={`w-3 h-3 rounded-full mr-4 ${orderInfo.status === 'delivered' ? 'bg-[#8DC63F]' : 'bg-gray-300'}`}></div>
+            <span className="font-medium">Обработка оплаты. Ожидайте.</span>
           </div>
         </div>
       </div>

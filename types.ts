@@ -23,7 +23,9 @@ export enum AppStep {
   ABOUT = 'ABOUT',
   // Supabase Checkout
   SUPABASE_CHECKOUT = 'SUPABASE_CHECKOUT',
-  SUPABASE_ORDER_FORM = 'SUPABASE_ORDER_FORM'
+  SUPABASE_ORDER_FORM = 'SUPABASE_ORDER_FORM',
+  /** Просмотр товара по ссылке/коду — сначала карточка, потом «Оформить заказ» → форма */
+  PRODUCT_VIEW = 'PRODUCT_VIEW'
 }
 
 export interface ProductInfo {

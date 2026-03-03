@@ -3,17 +3,20 @@ import React, { useState } from 'react';
 
 interface Props {
   onBack: () => void;
-  onFound: () => void;
+  onSearch: (orderNumber: string) => void;
 }
 
-const OnlinePaymentSearch: React.FC<Props> = ({ onBack, onFound }) => {
+const OnlinePaymentSearch: React.FC<Props> = ({ onBack, onSearch }) => {
   const [orderNumber, setOrderNumber] = useState('');
+  const [searching, setSearching] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (orderNumber.trim().length > 3) {
-        onFound();
-    }
+    const num = orderNumber.trim();
+    if (num.length < 3) return;
+    setSearching(true);
+    onSearch(num);
+    setSearching(false);
   };
 
   return (
@@ -23,7 +26,7 @@ const OnlinePaymentSearch: React.FC<Props> = ({ onBack, onFound }) => {
             Вернуться назад
        </button>
 
-       <div className="w-20 h-20 bg-[#82C12D]/10 rounded-full flex items-center justify-center mx-auto mb-6 text-[#82C12D]">
+       <div className="w-20 h-20 bg-[#8DC63F]/10 rounded-full flex items-center justify-center mx-auto mb-6 text-[#8DC63F]">
             <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path></svg>
        </div>
 
@@ -37,16 +40,16 @@ const OnlinePaymentSearch: React.FC<Props> = ({ onBack, onFound }) => {
                 type="text" 
                 value={orderNumber}
                 onChange={(e) => setOrderNumber(e.target.value)}
-                placeholder="Номер заказа (например: 1250689930)"
-                className="w-full h-14 px-6 rounded-xl text-lg text-center font-medium text-[#25282B] placeholder:text-gray-300 bg-white outline-none border-2 border-gray-200 focus:border-[#82C12D] transition-all"
+                placeholder="Номер заказа (например: CDEK-1234567890)"
+                className="w-full h-14 px-6 rounded-xl text-lg text-center font-medium text-[#25282B] placeholder:text-gray-300 bg-white outline-none border-2 border-gray-200 focus:border-[#8DC63F] transition-all"
             />
             
             <button 
                 type="submit"
-                disabled={orderNumber.length < 3}
-                className="w-full h-14 bg-[#82C12D] text-white font-bold rounded-xl hover:bg-[#72a927] transition shadow-lg shadow-[#82C12D]/20 disabled:opacity-50 disabled:cursor-not-allowed"
+                disabled={orderNumber.trim().length < 3 || searching}
+                className="w-full h-14 bg-[#8DC63F] text-white font-bold rounded-xl hover:bg-[#72a930] transition shadow-lg shadow-[#8DC63F]/20 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-                Найти и оплатить
+                {searching ? 'Поиск...' : 'Найти и оплатить'}
             </button>
        </form>
 

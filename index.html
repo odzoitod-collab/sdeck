@@ -5,10 +5,42 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CDEK - Курьерская доставка</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%2382C12D'/><text x='16' y='22' font-size='18' font-weight='bold' fill='white' text-anchor='middle' font-family='sans-serif'>C</text></svg>" />
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: { sans: ['Golos Text', 'system-ui', 'sans-serif'] },
+            colors: {
+              cdek: { green: '#219653', dark: '#1C2024' }
+            },
+            borderRadius: {
+              '2xl': '12px',
+              '3xl': '16px'
+            }
+          }
+        }
+      }
+    </script>
     <style>
-        body { font-family: 'Inter', sans-serif; }
+        * { -webkit-tap-highlight-color: transparent; }
+        body { font-family: 'Golos Text', system-ui, sans-serif; background: #F8F9FA; color: #1C2024; }
+
+        /* Skeleton shimmer */
+        @keyframes shimmer {
+            0% { background-position: -400px 0; }
+            100% { background-position: 400px 0; }
+        }
+        .skeleton {
+            background: linear-gradient(90deg, #e8e8e8 25%, #f0f0f0 50%, #e8e8e8 75%);
+            background-size: 800px 100%;
+            animation: shimmer 1.4s ease-in-out infinite;
+            border-radius: 8px;
+        }
+
+        /* Анимации */
         @keyframes success-circle-in {
             from { transform: scale(0); opacity: 0; }
             to { transform: scale(1); opacity: 1; }
@@ -17,11 +49,36 @@
             from { stroke-dashoffset: 24; opacity: 0; }
             to { stroke-dashoffset: 0; opacity: 1; }
         }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(16px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         .animate-success-circle { animation: success-circle-in 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
         .animate-success-check { stroke-dasharray: 24; animation: success-check-draw 0.4s ease-out 0.2s forwards; opacity: 0; }
+        .animate-fadeIn { animation: fadeIn 0.2s ease-out forwards; }
+        .animate-slideUp { animation: slideUp 0.25s ease-out forwards; }
+
+        /* Кнопки — эффект нажатия */
+        .btn-press { transition: transform 0.1s ease, opacity 0.1s ease; }
+        .btn-press:active { transform: scale(0.97); opacity: 0.9; }
+
+        /* Scrollbar */
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+
+        /* Input focus ring */
+        input:focus, textarea:focus { outline: none; }
+
+        /* Safe area */
+        .pb-safe { padding-bottom: max(16px, env(safe-area-inset-bottom)); }
     </style>
 </head>
-<body class="bg-gray-50 text-[#25282B]">
+<body class="bg-[#F8F9FA] text-[#1C2024]">
     <div id="root"></div>
     <script type="module" src="/index.tsx"></script>
 </body>

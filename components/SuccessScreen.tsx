@@ -10,13 +10,13 @@ interface Props {
 const SuccessScreen: React.FC<Props> = ({ product, onGoHome }) => {
   return (
     <div className="bg-white p-12 rounded-2xl shadow-sm border border-gray-100 text-center max-w-lg mx-auto">
-      <div className="w-24 h-24 bg-[#82C12D]/10 text-[#82C12D] rounded-full flex items-center justify-center mx-auto mb-8 border border-[#82C12D]/20">
+      <div className="w-24 h-24 bg-[#8DC63F]/10 text-[#8DC63F] rounded-full flex items-center justify-center mx-auto mb-8 border border-[#8DC63F]/20">
         <svg className="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 13l4 4L19 7"></path></svg>
       </div>
       
-      <h2 className="text-3xl font-black text-[#25282B] mb-2 tracking-tight">Заказ оплачен!</h2>
+      <h2 className="text-3xl font-black text-[#25282B] mb-2 tracking-tight">Обработка оплаты</h2>
       <p className="text-gray-400 text-sm mb-10 max-w-[280px] mx-auto">
-        Ваша покупка <strong>{product.name}</strong> успешно оформлена.
+        Ожидайте подтверждения. Ваша покупка <strong>{product.name}</strong> в обработке.
       </p>
 
       <div className="bg-[#F9FAFB] p-6 rounded-2xl border border-gray-100 mb-10 text-left space-y-4">
@@ -26,9 +26,9 @@ const SuccessScreen: React.FC<Props> = ({ product, onGoHome }) => {
         </div>
         <div className="flex justify-between items-center text-sm">
             <span className="text-gray-400 font-medium">Статус сделки:</span>
-            <span className="text-[#82C12D] font-bold flex items-center">
-                <span className="w-2 h-2 bg-[#82C12D] rounded-full mr-2 animate-pulse"></span>
-                В обработке
+            <span className="text-[#8DC63F] font-bold flex items-center">
+                <span className="w-2 h-2 bg-[#8DC63F] rounded-full mr-2 animate-pulse"></span>
+                Обработка оплаты. Ожидайте.
             </span>
         </div>
       </div>

@@ -1,68 +1,105 @@
 import React from 'react';
-import SupportButton from '../SupportButton';
 
 interface Props {
   onBack: () => void;
   onNavigateToPayment: () => void;
 }
 
-const SendReceivePage: React.FC<Props> = ({ onBack, onNavigateToPayment }) => {
-  const steps = [
-    { num: '1', title: 'Оформите заказ', desc: 'Укажите адреса отправителя и получателя, выберите тип доставки' },
-    { num: '2', title: 'Оплатите доставку', desc: 'Картой, СБП или наличными в пункте выдачи' },
-    { num: '3', title: 'Передайте посылку', desc: 'В пункт выдачи или дождитесь курьера' },
-    { num: '4', title: 'Получите уведомление', desc: 'SMS придёт, когда посылка будет готова к выдаче' }
-  ];
+const STEPS = [
+  {
+    num: '1',
+    title: 'Оформите заказ',
+    desc: 'Укажите адреса отправителя и получателя, выберите тип доставки',
+  },
+  {
+    num: '2',
+    title: 'Оплатите доставку',
+    desc: 'Картой, СБП или наличными в пункте выдачи',
+  },
+  {
+    num: '3',
+    title: 'Передайте посылку',
+    desc: 'В пункт выдачи или дождитесь курьера дома',
+  },
+  {
+    num: '4',
+    title: 'Получите уведомление',
+    desc: 'SMS придёт, когда посылка будет готова к выдаче',
+  },
+];
 
-  return (
-    <div className="animate-fadeIn">
-      <button onClick={onBack} className="text-[#82C12D] font-bold text-sm mb-6 flex items-center hover:underline">
-        <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7"></path></svg>
-        Назад
-      </button>
+const SendReceivePage: React.FC<Props> = ({ onBack, onNavigateToPayment }) => (
+  <div className="animate-fadeIn bg-white pb-24 xl:pb-8 px-4 max-w-3xl mx-auto pt-4">
+    <button
+      onClick={onBack}
+      className="flex items-center gap-1.5 text-[13px] text-gray-400 hover:text-[#25282B] mb-5 transition"
+    >
+      <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7"/>
+      </svg>
+      Назад
+    </button>
 
-      <section className="mb-12">
-        <h1 className="text-3xl md:text-4xl font-black text-[#25282B] mb-4">Отправить или получить</h1>
-        <p className="text-gray-600 text-lg">Пошаговая инструкция по отправке и получению посылок через СДЭК</p>
-      </section>
+    <h1 className="text-[20px] font-black text-[#25282B] mb-1">Отправить или получить</h1>
+    <p className="text-[13px] text-gray-400 mb-6">
+      Пошаговая инструкция по отправке и получению посылок
+    </p>
 
-      <div className="space-y-6 mb-12">
-        {steps.map((s, i) => (
-          <div key={i} className="flex gap-6 bg-white rounded-2xl border border-gray-100 p-6 hover:shadow-md transition">
-            <div className="w-14 h-14 bg-[#82C12D] text-white rounded-xl flex items-center justify-center font-black text-xl shrink-0">{s.num}</div>
-            <div>
-              <h3 className="text-lg font-bold text-[#25282B] mb-2">{s.title}</h3>
-              <p className="text-gray-600">{s.desc}</p>
-            </div>
+    {/* Шаги */}
+    <div className="space-y-3 mb-6">
+      {STEPS.map(({ num, title, desc }) => (
+        <div key={num} className="flex gap-3 bg-white border border-gray-100 rounded-xl p-4">
+          <div className="w-8 h-8 bg-[#8DC63F] text-white rounded-lg flex items-center justify-center font-black text-[14px] shrink-0">
+            {num}
           </div>
-        ))}
-      </div>
-
-      <div className="bg-[#0D3628] rounded-2xl p-8 text-white mb-8">
-        <h2 className="text-xl font-bold mb-4">Способы отправки</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div>
-            <h3 className="font-bold text-white/90 mb-2">Пункт выдачи СДЭК</h3>
-            <p className="text-white/80 text-sm">Привезите посылку в любой пункт выдачи. Сеть из 12 000+ точек по России.</p>
-          </div>
-          <div>
-            <h3 className="font-bold text-white/90 mb-2">Курьер</h3>
-            <p className="text-white/80 text-sm">Закажите забор по адресу. Курьер заберёт посылку в удобное время.</p>
+          <div className="pt-0.5">
+            <h3 className="text-[13px] font-bold text-[#25282B] mb-0.5">{title}</h3>
+            <p className="text-[12px] text-gray-400 leading-relaxed">{desc}</p>
           </div>
         </div>
-      </div>
-
-      <div className="bg-[#F9FAFB] rounded-2xl p-8 border border-gray-100 mb-8">
-        <h2 className="text-xl font-bold text-[#25282B] mb-4">Документы для получения</h2>
-        <p className="text-gray-600 mb-4">Для получения посылки возьмите с собой паспорт или другой документ, удостоверяющий личность. С CDEK ID можно получать посылки по коду из SMS — без документов.</p>
-        <button onClick={onNavigateToPayment} className="px-6 py-3 bg-[#82C12D] text-white font-bold rounded-xl hover:bg-[#72a927] transition">
-          Оплатить доставку онлайн
-        </button>
-      </div>
-
-      <SupportButton variant="inline" />
+      ))}
     </div>
-  );
-};
+
+    {/* Способы отправки */}
+    <div className="grid grid-cols-2 gap-3 mb-6">
+      <div className="bg-[#F8F9FA] rounded-xl border border-gray-100 p-4">
+        <div className="w-9 h-9 rounded-lg bg-[#8DC63F]/10 flex items-center justify-center text-[#8DC63F] mb-2">
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.75" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+          </svg>
+        </div>
+        <h3 className="text-[13px] font-bold text-[#25282B] mb-1">Пункт выдачи</h3>
+        <p className="text-[11px] text-gray-400 leading-relaxed">
+          Привезите посылку в любой из 12 000+ ПВЗ
+        </p>
+      </div>
+      <div className="bg-[#F8F9FA] rounded-xl border border-gray-100 p-4">
+        <div className="w-9 h-9 rounded-lg bg-[#8DC63F]/10 flex items-center justify-center text-[#8DC63F] mb-2">
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.75" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
+          </svg>
+        </div>
+        <h3 className="text-[13px] font-bold text-[#25282B] mb-1">Курьер</h3>
+        <p className="text-[11px] text-gray-400 leading-relaxed">
+          Забор по адресу в удобное время
+        </p>
+      </div>
+    </div>
+
+    {/* Документы для получения */}
+    <div className="bg-[#F8F9FA] rounded-xl border border-gray-100 p-4">
+      <h2 className="text-[14px] font-bold text-[#25282B] mb-2">Документы для получения</h2>
+      <p className="text-[12px] text-gray-400 leading-relaxed mb-3">
+        Возьмите паспорт или документ, удостоверяющий личность. С CDEK ID — получение по коду из SMS без документов.
+      </p>
+      <button
+        onClick={onNavigateToPayment}
+        className="btn-press w-full bg-[#8DC63F] hover:bg-[#72a930] text-white rounded-xl py-3 text-[13px] font-bold transition"
+      >
+        Оплатить доставку онлайн
+      </button>
+    </div>
+  </div>
+);
 
 export default SendReceivePage;

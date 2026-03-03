@@ -8,7 +8,7 @@ interface Props {
 const TrackingHelpPage: React.FC<Props> = ({ onBack }) => {
   return (
     <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-10 animate-fadeIn">
-      <button onClick={onBack} className="text-[#82C12D] font-bold text-sm mb-6 flex items-center hover:underline">
+      <button onClick={onBack} className="text-[#8DC63F] font-bold text-sm mb-6 flex items-center hover:underline">
         <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7"></path></svg>
         Назад
       </button>

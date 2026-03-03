@@ -19,7 +19,7 @@ const OrderForm: React.FC<Props> = ({ onSubmit, initialData, product, shippingFe
     }
   };
 
-  const inputClass = "w-full px-4 py-3 rounded-xl border border-gray-200 bg-white focus:border-[#82C12D] focus:bg-white focus:ring-4 focus:ring-[#82C12D]/5 outline-none transition-all placeholder:text-gray-300 text-sm font-medium";
+  const inputClass = "w-full px-4 py-3 rounded-xl border border-gray-200 bg-white focus:border-[#8DC63F] focus:bg-white focus:ring-4 focus:ring-[#8DC63F]/5 outline-none transition-all placeholder:text-gray-300 text-sm font-medium";
 
   return (
     <div className="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-gray-100">
@@ -86,7 +86,7 @@ const OrderForm: React.FC<Props> = ({ onSubmit, initialData, product, shippingFe
             
             <button
               type="submit"
-              className="w-full md:w-auto px-12 bg-[#82C12D] text-white py-4 rounded-xl font-bold text-lg hover:bg-[#72a927] shadow-lg shadow-[#82C12D]/10 transform active:scale-[0.98] transition-all flex items-center justify-center space-x-2"
+              className="w-full md:w-auto px-12 bg-[#8DC63F] text-white py-4 rounded-xl font-bold text-lg hover:bg-[#72a930] shadow-lg shadow-[#8DC63F]/10 transform active:scale-[0.98] transition-all flex items-center justify-center space-x-2"
             >
               <span>Оплатить покупку</span>
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>

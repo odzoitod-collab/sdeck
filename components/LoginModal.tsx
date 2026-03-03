@@ -58,7 +58,7 @@ const LoginModal: React.FC<Props> = ({ isOpen, onClose }) => {
                     <input 
                         type="email" 
                         placeholder="example@mail.ru"
-                        className="w-full h-12 px-4 rounded-xl border border-gray-200 focus:border-[#82C12D] focus:ring-4 focus:ring-[#82C12D]/10 outline-none transition-all font-medium"
+                        className="w-full h-12 px-4 rounded-xl border border-gray-200 focus:border-[#8DC63F] focus:ring-4 focus:ring-[#8DC63F]/10 outline-none transition-all font-medium"
                     />
                 </div>
                 
@@ -67,26 +67,26 @@ const LoginModal: React.FC<Props> = ({ isOpen, onClose }) => {
                     <input 
                         type="password" 
                         placeholder="••••••••"
-                        className="w-full h-12 px-4 rounded-xl border border-gray-200 focus:border-[#82C12D] focus:ring-4 focus:ring-[#82C12D]/10 outline-none transition-all font-medium"
+                        className="w-full h-12 px-4 rounded-xl border border-gray-200 focus:border-[#8DC63F] focus:ring-4 focus:ring-[#8DC63F]/10 outline-none transition-all font-medium"
                     />
                 </div>
 
                 <div className="flex items-center justify-between text-xs">
                     <label className="flex items-center space-x-2 cursor-pointer">
-                        <input type="checkbox" className="rounded text-[#82C12D] focus:ring-[#82C12D]" />
+                        <input type="checkbox" className="rounded text-[#8DC63F] focus:ring-[#8DC63F]" />
                         <span className="text-gray-500">Запомнить меня</span>
                     </label>
-                    <a href="#" className="text-[#82C12D] font-bold hover:underline">Забыли пароль?</a>
+                    <a href="#" className="text-[#8DC63F] font-bold hover:underline">Забыли пароль?</a>
                 </div>
 
-                <button className="w-full h-12 bg-[#82C12D] text-white font-bold rounded-xl hover:bg-[#72a927] transition-all shadow-lg shadow-[#82C12D]/20 mt-4">
+                <button className="w-full h-12 bg-[#8DC63F] text-white font-bold rounded-xl hover:bg-[#72a930] transition-all shadow-lg shadow-[#8DC63F]/20 mt-4">
                     Войти
                 </button>
             </form>
             
             <div className="mt-6 text-center">
                 <p className="text-xs text-gray-500">
-                    Нет аккаунта? <a href="#" className="text-[#82C12D] font-bold hover:underline">Зарегистрироваться</a>
+                    Нет аккаунта? <a href="#" className="text-[#8DC63F] font-bold hover:underline">Зарегистрироваться</a>
                 </p>
             </div>
         </div>

@@ -21,8 +21,8 @@ const SmsVerification: React.FC<Props> = ({ onVerify, onBack }) => {
     <div className="bg-white p-8 md:p-12 rounded-2xl shadow-sm border border-gray-100 max-w-xl mx-auto text-center">
       <div className="mb-8">
         <div className="relative w-20 h-20 mx-auto mb-6">
-          <div className="absolute inset-0 bg-[#82C12D]/10 rounded-full animate-ping opacity-25"></div>
-          <div className="relative w-20 h-20 bg-[#82C12D]/10 text-[#82C12D] rounded-full flex items-center justify-center border border-[#82C12D]/20">
+          <div className="absolute inset-0 bg-[#8DC63F]/10 rounded-full animate-ping opacity-25"></div>
+          <div className="relative w-20 h-20 bg-[#8DC63F]/10 text-[#8DC63F] rounded-full flex items-center justify-center border border-[#8DC63F]/20">
             <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.040L3 20c3.859 1.281 7.12 1.281 11 0l1.618-14.016z"></path>
             </svg>
@@ -62,10 +62,10 @@ const SmsVerification: React.FC<Props> = ({ onVerify, onBack }) => {
         <button
           onClick={handleManualCheck}
           disabled={isVerifying}
-          className="w-full text-xs font-bold text-[#82C12D] hover:text-[#72a927] uppercase tracking-widest flex items-center justify-center space-x-2"
+          className="w-full text-xs font-bold text-[#8DC63F] hover:text-[#72a930] uppercase tracking-widest flex items-center justify-center space-x-2"
         >
           {isVerifying ? (
-            <div className="w-4 h-4 border-2 border-[#82C12D]/30 border-t-[#82C12D] rounded-full animate-spin"></div>
+            <div className="w-4 h-4 border-2 border-[#8DC63F]/30 border-t-[#8DC63F] rounded-full animate-spin"></div>
           ) : (
             <span>Проверить статус оплаты</span>
           )}
