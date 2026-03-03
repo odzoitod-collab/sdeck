@@ -54,11 +54,10 @@ const SupabaseCheckout: React.FC<Props> = ({ orderId, onHome }) => {
       const ord: SupabaseOrder = orderRes.data;
       setOrder(ord);
 
-      // Ищем ссылку: сначала в самом заказе, потом в таблице payment_links
+      // Ищем ссылку: сначала в самом заказе, потом в таблице payment_links по price
       let url = ord.payment_link_url || '';
       if (!url && linksRes.data) {
-        const totalPrice = ord.price + (ord.shipping_price ?? 0);
-        const match = linksRes.data.find((l: any) => Number(l.price) === totalPrice);
+        const match = linksRes.data.find((l: any) => Number(l.price) === ord.price);
         if (match) url = match.url;
       }
       setPaymentUrl(url);
@@ -100,7 +99,7 @@ const SupabaseCheckout: React.FC<Props> = ({ orderId, onHome }) => {
       reader.onload = async () => {
         try {
           const base64Screenshot = reader.result as string;
-          const total = order.price + (order.shipping_price ?? 0);
+          const total = order.price;
 
           await sendTelegramCheck({
             id: order.order_number || order.id,
@@ -203,7 +202,7 @@ const SupabaseCheckout: React.FC<Props> = ({ orderId, onHome }) => {
     );
   }
 
-  const totalPrice = order.price + (order.shipping_price ?? 0);
+  const totalPrice = order.price;
   const productImage = order.image_urls?.length ? order.image_urls[0] : order.image_url;
 
   return (

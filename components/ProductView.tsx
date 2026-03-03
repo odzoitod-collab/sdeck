@@ -139,8 +139,7 @@ const ProductView: React.FC<Props> = ({ orderId, onBack, onCheckout }) => {
     );
   }
 
-  const shipping = order.shipping_price ?? 1250;
-  const total = order.price + shipping;
+  const total = order.price;
   const canCheckout = order.status === 'pending';
   const hasMultiplePhotos = images.length > 1;
 
@@ -245,19 +244,9 @@ const ProductView: React.FC<Props> = ({ orderId, onBack, onCheckout }) => {
             )}
 
             <div className="mt-auto space-y-3 sm:space-y-4">
-              <div className="flex flex-wrap items-baseline gap-2">
-                <span className="text-2xl sm:text-3xl font-black text-[#25282B]">
-                  {order.price.toLocaleString()} ₽
-                </span>
-                <span className="text-sm text-gray-400">цена товара</span>
-              </div>
-              <div className="flex justify-between text-sm text-gray-500">
-                <span>Доставка СДЭК</span>
-                <span className="font-medium text-gray-700">{shipping.toLocaleString()} ₽</span>
-              </div>
               <div className="flex justify-between pt-3 border-t border-gray-100">
-                <span className="font-bold text-gray-900">Итого к оплате</span>
-                <span className="font-black text-lg sm:text-xl text-[#8DC63F]">{total.toLocaleString()} ₽</span>
+                <span className="font-bold text-gray-900">К оплате</span>
+                <span className="font-black text-2xl sm:text-3xl text-[#8DC63F]">{total.toLocaleString()} ₽</span>
               </div>
 
               {canCheckout ? (
